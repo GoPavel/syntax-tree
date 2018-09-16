@@ -1,5 +1,7 @@
 
-void f() {}
+void f() {
+    g();
+}
 
 int foo(int a) {
     int y = f() + f();
@@ -9,4 +11,24 @@ int foo(int a) {
     x = x + 2;
 
     return x;
+}
+
+int fib(int a) {
+    if (a == 0) {
+        return 1;
+    } else {
+        if (a == 1) {
+            return 1;
+        } else {
+            return fib(a-1) + fib(a-2);
+        }
+    }
+}
+
+void g(int a, int b) {
+    return h(a + b);
+}
+
+void h(int c) {
+    return g(c - 1, c + 1);
 }

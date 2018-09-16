@@ -39,6 +39,10 @@ import Lexer
 %left MUL DIV
 
 %%
+
+Start
+  : Code {Code $1}
+
 Code
   : DefFunc Code { $1 : $2 }
   | DefFunc { [$1] }
