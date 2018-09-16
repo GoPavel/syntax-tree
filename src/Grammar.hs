@@ -13,11 +13,8 @@ data Expr = Val String
           deriving (Eq, Show)
 
 data Condop = L
-            -- | LE
             | G
-            -- | GE
             | E
-            -- | NE
             deriving (Eq, Show)
 
 data Cond = Cond Condop Expr Expr

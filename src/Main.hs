@@ -1,13 +1,13 @@
 module Main where
 
 
+import           CallGraph (getRecursive, syntaxToGraph)
 import           Data.List
+import qualified Data.Map  as Map
+import           Grammar
 import           Lexer
 import           Parser
-import           Grammar
 import           System.IO
-import           CallGraph (syntaxToGraph, getRecursive)
-import qualified Data.Map as Map
 
 outputFile :: String
 outputFile = "output.txt"
@@ -17,19 +17,19 @@ inputFile = "code.cpp"
 
 fromRight :: Either String b -> b
 fromRight (Left str) = error str
-fromRight (Right b) = b
+fromRight (Right b)  = b
 
 main :: IO()
 main = do
-  s <- readFile inputFile
-  -- putStrLn s
+  putStrLn ">> Enter your code (example: code.cpp): <<"
+  input <- getLine
+  let fileName = head $ words input
+  s <- readFile fileName
   let tokens = alexScanTokens s
-  print "\ntokens: "
-  print tokens
-  print "\nsyntax tree: "
   let syntax = fromRight $ parseCode tokens
-  print syntax
   let isRec = getRecursive $ syntaxToGraph syntax
+  putStrLn "Functions causing a recursive function call: "
   putStrLn $ intercalate "\n"
-           $ map (\(k, v) -> k ++ if v then " -> yes" else " -> no")
+           $ map fst
+           $ filter snd
            $ Map.toList isRec

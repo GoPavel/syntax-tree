@@ -1,6 +1,6 @@
 
-void f() {
-    g();
+int f() {
+    return 2;
 }
 
 int foo(int a) {
@@ -8,7 +8,7 @@ int foo(int a) {
 
     int x;
     int x = 2; // It's comment
-    x = x + 2;
+    x = (x + 2) + (3);
 
     return x;
 }
@@ -31,4 +31,12 @@ void g(int a, int b) {
 
 void h(int c) {
     return g(c - 1, c + 1);
+}
+
+void print() {
+    print();
+}
+
+void l() {
+    return print(42);
 }

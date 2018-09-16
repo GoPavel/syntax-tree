@@ -1,8 +1,8 @@
 module CallGraph where
 
-import Grammar
-import qualified Data.Set as Set
 import qualified Data.Map as Map
+import qualified Data.Set as Set
+import           Grammar
 
 data Graph = Graph {
   nodes :: Set.Set String,
@@ -26,13 +26,13 @@ syntaxToGraph (Code fs) = Graph{nodes = getNodes, edges = getEdges} where
                                                  concatMap extractFromStatement sts2
 
   extractFromDefVar (DefVarAndInit _ _ e) = extractFromExpr e
-  extractFromDefVar _ = []
+  extractFromDefVar _                     = []
 
   extractFromCond (Cond _ e1 e2) = extractFromExpr e1 ++ extractFromExpr e2
 
   extractFromExpr (Call name exprs) = name : concatMap extractFromExpr exprs
-  extractFromExpr (Binary _ e1 e2) = extractFromExpr e1 ++ extractFromExpr e2
-  extractFromExpr  _ = []
+  extractFromExpr (Binary _ e1 e2)  = extractFromExpr e1 ++ extractFromExpr e2
+  extractFromExpr  _                = []
 
 getRecursive :: Graph -> Map.Map String Bool
 getRecursive Graph{edges = g, nodes = xs} = startDfs xs where
@@ -40,7 +40,7 @@ getRecursive Graph{edges = g, nodes = xs} = startDfs xs where
 
   dfs :: String -> Map.Map String Bool -> Set.Set String -> (Map.Map String Bool, Bool)
   dfs v used stack
-    | v `Map.member` used = (used, v `Map.member` used)
+    | v `Map.member` used = (used, used Map.! v)
     | v `Set.member` stack = (Map.insert v True used, True)
     | otherwise =
          let tr c (a, b) = (a, b || c)

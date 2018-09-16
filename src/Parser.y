@@ -82,6 +82,7 @@ Type
 
 Expr
   : NAME LEFTBRACKET ArgsInCall RIGHTBRACKET { Call $1 $3 }
+  | LEFTBRACKET Expr RIGHTBRACKET { $2 }
   | Expr PLUS Expr { Binary Add $1 $3 }
   | Expr MINUS Expr { Binary Sub $1 $3 }
   | Expr MUL Expr { Binary Mul $1 $3 }
