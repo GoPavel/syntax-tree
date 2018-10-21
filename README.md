@@ -37,7 +37,7 @@ For example: [code.cpp](https://github.com/GoPavel/syntax-tree/blob/master/code.
 
 ## Grammar
 
-```
+```yacc
 Start
   : Code
 
